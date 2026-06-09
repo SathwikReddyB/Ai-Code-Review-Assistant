@@ -1,0 +1,55 @@
+# FastAPI Backend
+fastapi
+uvicorn[standard]
+python-multipart
+
+# Database
+sqlalchemy
+psycopg2-binary
+alembic
+
+# Authentication
+python-jose[cryptography]
+passlib[bcrypt]
+bcrypt
+
+# Environment Variables
+python-dotenv
+
+# Validation
+pydantic
+email-validator
+
+# OpenAI & LangChain
+openai
+langchain
+langchain-openai
+langchain-community
+
+# Vector Database
+faiss-cpu
+
+# Embeddings
+sentence-transformers
+tiktoken
+
+# GitHub Integration
+gitpython
+requests
+
+# Static Analysis
+pylint
+bandit
+radon
+
+# Background Tasks
+celery
+redis
+
+# Utilities
+numpy
+pandas
+
+# Testing
+pytest
+httpx

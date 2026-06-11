@@ -87,10 +87,12 @@ def login(
         "token_type": "bearer"
     }
 
+# OAuth2 scheme for token extraction
 oauth2_scheme = OAuth2PasswordBearer(
     tokenUrl="/api/auth/login"
 )
 
+# Dependency to get current user from token
 def get_current_user(
     token: str = Depends(oauth2_scheme),
     db: Session = Depends(get_db)
@@ -118,7 +120,7 @@ def get_current_user(
 
     return user
 
-
+# Protected endpoint to get current user info
 @router.get("/me")
 def get_me(
     current_user: User = Depends(get_current_user)

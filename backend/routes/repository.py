@@ -11,6 +11,8 @@ from fastapi import HTTPException
 import os
 import git
 
+from services.indexing.index_repository import index_repository
+
 router = APIRouter()
 
 # Endpoint to add a GitHub repository for the current user
@@ -120,4 +122,38 @@ def clone_repository(
     return {
         "message": "Repository cloned successfully",
         "path": clone_path
+    }
+
+# Endpoint to index the cloned repository and create vector embeddings
+@router.post("/{repo_id}/index")
+def index_repo(
+    repo_id: int,
+    db: Session = Depends(get_db),
+    current_user = Depends(get_current_user)
+):
+
+    repo = db.query(Repository).filter(
+        Repository.id == repo_id,
+        Repository.user_id == current_user.id
+    ).first()
+
+    if not repo:
+        raise HTTPException(
+            status_code=404,
+            detail="Repository not found"
+        )
+
+    count = index_repository(
+        repo.upload_path,
+        repo.repo_name
+    )
+
+    repo.indexed = True
+    repo.status = "INDEXED"
+
+    db.commit()
+
+    return {
+        "message": "Repository indexed successfully",
+        "chunks_indexed": count
     }

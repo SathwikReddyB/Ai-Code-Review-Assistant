@@ -1,5 +1,6 @@
-from sqlalchemy import Column, Integer, String, Text, TIMESTAMP, ForeignKey, text
+from sqlalchemy import Column, Integer, String, Text, TIMESTAMP, ForeignKey, text, Boolean
 from database import Base
+
 
 class Repository(Base):
     __tablename__ = "repositories"
@@ -24,3 +25,6 @@ class Repository(Base):
         TIMESTAMP,
         server_default=text("CURRENT_TIMESTAMP")
     )
+
+
+indexed = Column(Boolean, default=False)
